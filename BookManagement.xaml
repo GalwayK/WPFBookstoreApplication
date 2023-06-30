@@ -1,0 +1,214 @@
+﻿<Window x:Name="BookManagementWindow" x:Class="BookstoreTracker.BookManagement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookstoreTracker"
+        mc:Ignorable="d"
+        Title="BookManagement-991418738" Height="500" Width="800" Loaded="InitializeWindow">
+
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Options" Name="mnuOptions" >
+                <MenuItem Header="Show Books" Name="menuShowBooks" InputGestureText="Ctrl+1" Click="FocusShowTab"></MenuItem>
+                <MenuItem Header="Search Books" Name="menuSearchBook" InputGestureText="Ctrl+3" Click="FocusSearchTab"></MenuItem>
+                <MenuItem Header="Insert Book" Name="menuInsertBook" InputGestureText="Ctrl+2" Click="FocusInsertTab"/>
+                <MenuItem Header="Edit Book" Name="menuEditBook" InputGestureText="Ctrl+4" Click="FocusEditTab"></MenuItem>
+                <Separator />
+                <MenuItem Header="Delete Book" Name="menuDeleteBook" InputGestureText="Ctrl+5" Click="FocusDeleteTab"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Exit" Name="mnuExit">
+                <MenuItem Header="Return to Previous Page" Name="mnuReturn" Click="Return"></MenuItem>
+                <MenuItem Header="Quit Application" Name="mnuQuit" Click="QuitApplication"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom"> <!-- My name is Kyle Galway -->
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Status: "></Label>
+                <Label x:Name="lblStatus" Content="Window Launched"></Label>
+            </StackPanel>
+        </StatusBar>
+        <TabControl Name="BookStoreTab" DockPanel.Dock="Bottom" SelectionChanged="TabChanged" >
+            <TabItem Name="TabShow" Header="Show Books" Style="{DynamicResource tab-show}">
+                <DockPanel LastChildFill="True">
+                    <DataGrid DockPanel.Dock="Top" Name="gridData" AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="160" Canvas.Top="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                            <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="*"/>
+                            <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="*"/>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="*"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </DockPanel>
+            </TabItem>
+            <TabItem Style="{DynamicResource tab-search}" Name="TabSearch" Header="Search Books">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1.5*" />
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <Canvas Grid.Column="0">
+                            <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="79" RenderTransformOrigin="0.5,0.5" Canvas.Left="28">
+                                <Label Style="{DynamicResource lbl-center}" Content="Genre" Width="80" Canvas.Left="53" Canvas.Top="208"/>
+                                <ComboBox x:Name="txtSearchInputGenre" Canvas.Left="185" Width="180" Canvas.Top="218">
+                                    <ComboBoxItem Content="Science-Fiction"></ComboBoxItem>
+                                    <ComboBoxItem Content="Horror"></ComboBoxItem>
+                                    <ComboBoxItem Content="Biography"></ComboBoxItem>
+                                    <ComboBoxItem Content="Mystery"></ComboBoxItem>
+                                    <ComboBoxItem Content="Romance"></ComboBoxItem>
+                                    <ComboBoxItem Content="Fantasy"></ComboBoxItem>
+                                    <ComboBoxItem Content="Romantasy"></ComboBoxItem>
+                                </ComboBox>
+                            </DockPanel>
+                            <Label Style="{DynamicResource lbl-center}" Content="Please enter the Search Criteria" Canvas.Left="42" Canvas.Top="24" HorizontalAlignment="Left" Width="231" VerticalAlignment="Top"/>
+                            <DockPanel Canvas.Top="201" RenderTransformOrigin="0.5,0.5" Canvas.Left="28" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Label Style="{DynamicResource lbl-center}" Content="Author" Width="80" Canvas.Left="53" Canvas.Top="208"/>
+                                <TextBox Style="{DynamicResource text-center}" x:Name="txtSearchInputAuthor" Canvas.Left="185" TextWrapping="Wrap" Width="180" Canvas.Top="218" KeyDown="SearchByAuthor"/>
+                            </DockPanel>
+                            <Button Style="{DynamicResource btn-center}" x:Name="btnSearchByGenre" Content="Search by Genre" Width="130" Canvas.Left="110" Canvas.Top="127" HorizontalAlignment="Left" Height="32" Click="SearchByGenre"/>
+                            <Button Style="{DynamicResource btn-center}" x:Name="btnSearchByAuthor" Content="Search by Author" Width="130" Canvas.Left="110" Canvas.Top="251" Height="32" HorizontalAlignment="Left" Click="SearchByAuthor"/>
+                        </Canvas>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="5*" />
+                            </Grid.RowDefinitions>
+                            <Label Style="{DynamicResource lbl-center}" Grid.Row="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="Book Information" Canvas.Left="110" Canvas.Top="16" Width="207"/>
+                            <DataGrid Grid.Row="1" Name="gridSearchedData" AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="160" Canvas.Top="10">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                                    <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="*"/>
+                                    <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="*"/>
+                                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="*"/>
+                                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+            </TabItem>
+            <TabItem Style="{DynamicResource tab-edit}" Name="TabInsert" Header="Insert Book">
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2.5*" />
+                            <RowDefinition Height=".5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Label Style="{DynamicResource lbl-center}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="Please Enter Book Information" Canvas.Left="110" Canvas.Top="16" Width="288"/>
+                        <DockPanel Grid.Row="2" HorizontalAlignment="Stretch" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Title" Width="80" Canvas.Left="53" />
+                            <TextBox Style="{DynamicResource text-center}" Name="txtInsertTitle" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                        </DockPanel>
+                        <DockPanel Grid.Row="3" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Author" Width="80" Canvas.Left="53" />
+                            <TextBox Style="{DynamicResource text-center}" Name="txtInsertAuthor" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                        </DockPanel>
+                        <DockPanel Grid.Row="4" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Genre" Width="80" Canvas.Left="53" />
+                            <ComboBox Name="txtInsertGenre" DockPanel.Dock="Right" Width="180" >
+                                <ComboBoxItem Content="Science-Fiction"></ComboBoxItem>
+                                <ComboBoxItem Content="Horror"></ComboBoxItem>
+                                <ComboBoxItem Content="Biography"></ComboBoxItem>
+                                <ComboBoxItem Content="Mystery"></ComboBoxItem>
+                                <ComboBoxItem Content="Romance"></ComboBoxItem>
+                                <ComboBoxItem Content="Fantasy"></ComboBoxItem>
+                                <ComboBoxItem Content="Romantasy"></ComboBoxItem>
+                            </ComboBox>
+                        </DockPanel>
+                        <DockPanel Grid.Row="5" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="ISBN" Width="80" Canvas.Left="53" />
+                            <TextBox Style="{DynamicResource text-center}" Name="txtInsertISBN" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                        </DockPanel>
+                        <DockPanel Grid.Row="6" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Price" Width="80" Canvas.Left="53" />
+                            <TextBox Style="{DynamicResource text-center}" Name="txtInsertPrice" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                        </DockPanel>
+                        <Button Style="{DynamicResource btn-center}" x:Name="btnAddBook" Grid.Row="7" Content="Add Book" VerticalAlignment="Center" HorizontalAlignment="Center" Height="31" Width="82" Click="InsertNewBook"/>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Style="{DynamicResource tab-insert}" Name="TabEdit" Header="Edit Book">
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="1.5*" />
+                            <RowDefinition Height="8.5*"/>
+                        </Grid.RowDefinitions>
+                        <Label Style="{DynamicResource lbl-center}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="Please Enter Book Information" Canvas.Left="110" Canvas.Top="16" Width="230"/>
+                        <DockPanel Grid.Row="1" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="ISBN" Width="80" Canvas.Left="53" />
+                            <TextBox Style="{DynamicResource text-center}" Name="txtEditISBN" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" LostFocus="RevealEditInformationMouseEvent" KeyDown="RevealEditInformationKeyEvent" />
+                        </DockPanel>
+                        <Button Style="{DynamicResource btn-center}" Grid.Row="2" Name="btnSearchForISBN" VerticalAlignment="Center" HorizontalAlignment="Center" Height="31" Width="82" Content="Search" Click="RevealEditInformationMouseEvent" />
+                        <Grid Name="EditInnerGrid" Grid.Row="3" Opacity="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.5*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                            </Grid.RowDefinitions>
+                            <Label Style="{DynamicResource lbl-center}" Grid.Row="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="Found Book" Canvas.Left="110" Canvas.Top="16" Width="207"/>
+
+                            <DockPanel Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="False" Height="27" Width="288">
+                                <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Title" Width="80" Canvas.Left="53" />
+                                <TextBox IsReadOnly="True" Style="{DynamicResource text-center}" Name="txtEditTitle" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="2" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                                <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Author" Width="80" Canvas.Left="53" />
+                                <TextBox IsReadOnly="True" Style="{DynamicResource text-center}" Name="txtEditAuthor" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="3" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                                <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Genre" Width="80" Canvas.Left="53" />
+                                <TextBox IsReadOnly="True" Style="{DynamicResource text-center}" Name="txtEditGenre" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                            </DockPanel>
+                            <Label Style="{DynamicResource lbl-center}" Grid.Row="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="Please Enter New Price" Canvas.Left="110" Canvas.Top="16" Width="207"/>
+
+                            <DockPanel Grid.Row="5" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                                <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="Price" Width="80" Canvas.Left="53" />
+                                <TextBox Style="{DynamicResource text-center}" Name="txtEditPrice" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                            </DockPanel>
+                            <Button x:Name="btnEditBook" Grid.Row="6" Content="Update Book" VerticalAlignment="Center" HorizontalAlignment="Center" Height="31" Width="151" Click="UpdateBook"/>
+
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Style="{DynamicResource tab-delete}" Name="TabDelete" Header="Delete Book">
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                    <Grid> <!-- My name is Kyle Galway -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="1.5*" />
+                        </Grid.RowDefinitions>
+                        <Label Style="{DynamicResource lbl-center}" Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" DockPanel.Dock="Top" Content="Please Enter Book ISBN to Delete" Canvas.Left="110" Canvas.Top="16" Width="254"/>
+                        <DockPanel Grid.Row="2" DockPanel.Dock="Top" LastChildFill="False" Height="27" Width="288">
+                            <Label Style="{DynamicResource lbl-center}" DockPanel.Dock="Left" Content="ISBN" Width="80" Canvas.Left="53" />
+                            <TextBox Style="{DynamicResource text-center}" Name="txtDeleteISBN" DockPanel.Dock="Right" TextWrapping="Wrap" Width="180" />
+                        </DockPanel>
+                        <Button Style="{DynamicResource btn-center}" Name="btnDeleteBook" Grid.Row="3" Content="Delete Book" Height="31" Width="130" Click="DeleteBook"/>
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
