@@ -1,6 +1,6 @@
 # What is this application?
 
-This is a Graphical User Interface (GUI) application coded in C# using the Windows Presentation Foundation. This application emulates the function of an inventory tracking program for a Bookstore, tracking the information of books stocked by the store. 
+This is a Graphical User Interface (GUI) application coded in C# using the Windows Presentation Foundation, written with the Visual Studio code editor. This application emulates the function of an inventory tracking program for a Bookstore, tracking the information of books stocked by the store. 
 
 # What information is tracked by this application?
 
